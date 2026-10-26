@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Concepto de web para un estudio de arquitectura e interiorismo contemporáneo.">
+<title>ARISTA — Arquitectura e interiorismo</title>
+<style>
+:root {
+  --site-primary: #D9FF43;
+  --site-secondary: #171717;
+  --site-background: #F0EEE8;
+  --site-on-primary: #171717;
+  --site-on-secondary: #F0EEE8;
+  --site-on-background: #171717;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Georgia, "Times New Roman", serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  --paper: #F0EEE8;
+  --ink: #171717;
+  --forest: #171717;
+  --sage: #B9B7AE;
+  --sand: #D9FF43;
+  --muted: #77766F;
+  --line: rgba(23,23,23,.18);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
+#app { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); border-radius: 0; overflow: hidden; }
+a { color: inherit; text-decoration: none; }
+button, input, textarea { font: inherit; }
+.wrap { width: min(1380px, calc(100% - 64px)); margin: 0 auto; }
+.eyebrow { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; font-weight: 650; }
+.nav { height: 92px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.brand { display: flex; gap: 10px; align-items: center; font-size: 19px; letter-spacing: .15em; font-weight: 750; }
+.brand-mark { width: 27px; height: 27px; display: inline-grid; place-items: center; border: 1px solid var(--sand); background: var(--sand); color: var(--ink); transform: rotate(45deg); }
+.brand-mark span { transform: rotate(-45deg); font-family: var(--site-font-heading); font-size: 17px; }
+.nav-links { display: flex; gap: 30px; align-items: center; font-size: 13px; }
+.nav-links a:not(.nav-cta) { color: var(--muted); transition: color .2s; }
+.nav-links a:hover { color: var(--ink); }
+.nav-cta, .button { background: var(--site-primary); color: var(--site-on-primary); padding: 15px 22px; border: 1px solid var(--site-primary); display: inline-flex; align-items: center; justify-content: center; gap: 14px; font-size: 12px; font-weight: 750; transition: transform .2s, background .2s; }
+.nav-cta:hover, .button:hover { transform: translateY(-3px); background: #C4ED27; }
+.menu-toggle { display: none; border: 1px solid var(--line); background: transparent; padding: 9px 12px; }
+.hero { display: grid; grid-template-columns: .9fr 1.1fr; gap: 6vw; align-items: center; padding: 70px 0 86px; }
+.hero-copy { padding: 18px 0 24px; position: relative; z-index: 3; }
+.hero h1 { font-family: var(--site-font-body); font-weight: 850; letter-spacing: -.095em; font-size: clamp(64px, 8.1vw, 126px); line-height: .82; margin: 32px 0 30px; max-width: 760px; text-transform: uppercase; }
+.hero h1 em { color: var(--ink); font-style: normal; font-weight: 850; display: inline-block; position: relative; z-index: 4; background: var(--sand); padding: 5px 12px 10px 4px; margin-left: -4px; }
+.hero-copy p { max-width: 405px; color: #5E5D56; font-size: 14px; line-height: 1.8; margin: 0 0 30px; }
+.hero-actions { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+.text-link { font-size: 12px; font-weight: 750; display: inline-flex; gap: 9px; align-items: center; border-bottom: 1px solid var(--forest); padding-bottom: 5px; }
+.hero-note { display: flex; align-items: center; gap: 12px; margin-top: 54px; font-size: 10px; letter-spacing: .1em; color: var(--muted); text-transform: uppercase; }
+.hero-note:before { content: ""; width: 38px; height: 1px; background: var(--sand); }
+.hero-art { position: relative; min-height: 680px; background: #38302A url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1500&q=90') center/cover; overflow: hidden; border: 0; margin-right: calc((64px - (100vw - min(1380px, 100vw - 64px))) / 2); box-shadow: 18px 18px 0 var(--sand); }
+.hero-art:before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.04) 35%, rgba(0,0,0,.58) 100%); z-index: 2; pointer-events: none; }
+.arch-sun { display: none; }
+.arch-wall { display: none; }
+.arch-door { display: none; }
+.arch-floor { display: none; }
+.arch-plant { display: none; }
+.arch-plant:before, .arch-plant:after { content: ""; position: absolute; width: 20px; height: 96px; background: #9B9A78; border-radius: 100% 0 100% 0; bottom: 8px; left: 34px; transform: rotate(-25deg); }
+.arch-plant:after { height: 78px; left: 52px; transform: rotate(24deg); bottom: 31px; }
+.art-caption { position: absolute; z-index: 3; bottom: 28px; left: 28px; color: #fff; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; }
+.art-index { position: absolute; z-index: 3; top: 24px; right: 24px; writing-mode: vertical-rl; font-size: 10px; letter-spacing: .14em; color: #fff; }
+.stats { background: var(--sand); color: #171717; padding: 30px 0; }
+.stats-inner { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.stat { display: flex; align-items: baseline; gap: 14px; border-right: 1px solid rgba(23,21,19,.25); padding-right: 20px; }
+.stat:last-child { border: 0; }
+.stat strong { font-family: var(--site-font-heading); font-size: 34px; font-weight: 400; }
+.stat span { font-size: 11px; color: #3D3020; letter-spacing: .04em; }
+.section { padding: 130px 0; }
+.section-head { display: flex; justify-content: space-between; align-items: end; gap: 32px; margin-bottom: 44px; }
+.section h2 { font-family: var(--site-font-body); font-weight: 800; font-size: clamp(48px, 6vw, 82px); letter-spacing: -.085em; line-height: .91; margin: 18px 0 0; text-transform: uppercase; }
+.section-head p { max-width: 340px; font-size: 13px; color: var(--muted); line-height: 1.8; margin: 0; }
+.projects { display: grid; grid-template-columns: 1.15fr .85fr; gap: 24px; align-items: start; }
+.project-card:nth-child(2) { margin-top: 68px; }
+.project-art { position: relative; height: 480px; overflow: hidden; background: #38302A url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1100&q=85') center/cover; border: 0; }
+.project-card:nth-child(2) .project-art { height: 380px; background: #302923 url('https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=85') center/cover; }
+.project-art .p-window, .project-art .p-frame, .project-art .p-sun, .project-art .p-table { display: none; }
+.project-art .p-frame { position: absolute; width: 28%; height: 52%; left: 37%; bottom: 0; background: linear-gradient(90deg,#29231F,#5A4837); border-radius: 100px 100px 0 0; }
+.project-art .p-sun { position: absolute; width: 105px; height: 105px; background: #C8A66A; border-radius: 50%; right: 13%; top: 12%; }
+.project-art .p-table { position: absolute; bottom: 12%; left: 8%; width: 37%; height: 7px; background: #B4A080; transform: rotate(-8deg); }
+.project-art .p-table:after { content: ""; position: absolute; width: 5px; height: 60px; background: #B4A080; left: 20%; top: 2px; }
+.project-art.second .p-window { width: 53%; height: 60%; left: 22%; background: #B7A58D; border-radius: 0; transform: rotate(-5deg); }
+.project-art.second .p-frame { width: 35%; height: 42%; left: 32%; background: #665442; border-radius: 0; transform: rotate(-5deg); }
+.project-art.second .p-sun { width: 75px; height: 75px; right: 12%; top: 13%; background: #C8A66A; }
+.project-meta { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-top: 17px; }
+.project-meta h3 { margin: 0; font-family: var(--site-font-heading); font-size: 25px; font-weight: 400; }
+.project-meta span { color: var(--muted); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+.project-desc { color: var(--muted); font-size: 12px; line-height: 1.7; margin: 9px 0 0; max-width: 420px; }
+.services { background: #171717; color: #F0EEE8; }
+.service-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+.service { padding: 28px 28px 26px 0; border-bottom: 1px solid var(--line); }
+.service + .service { padding-left: 28px; border-left: 1px solid var(--line); }
+.service-number { color: var(--sand); font-size: 11px; letter-spacing: .12em; }
+.service h3 { font-family: var(--site-font-heading); font-size: 25px; font-weight: 400; margin: 28px 0 12px; }
+.service p { color: var(--muted); font-size: 12px; line-height: 1.8; max-width: 285px; margin: 0; }
+.process { display: grid; grid-template-columns: .8fr 1.2fr; gap: 90px; }
+.process-intro p { max-width: 340px; color: var(--muted); font-size: 13px; line-height: 1.8; margin-top: 20px; }
+.steps { border-top: 1px solid var(--line); }
+.step { display: grid; grid-template-columns: 48px 1fr; gap: 20px; padding: 23px 0; border-bottom: 1px solid var(--line); }
+.step-num { font-family: var(--site-font-heading); font-size: 24px; color: #C8A66A; }
+.step h3 { font-size: 14px; margin: 0 0 8px; }
+.step p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.contact { background: var(--sand); color: #171717; padding: 110px 0; }
+.contact-inner { display: flex; justify-content: space-between; align-items: end; gap: 40px; }
+.contact h2 { font-family: var(--site-font-heading); font-weight: 400; font-size: clamp(40px, 5vw, 66px); letter-spacing: -.04em; line-height: 1; margin: 17px 0 18px; max-width: 650px; }
+.contact p { color: #44443C; font-size: 13px; line-height: 1.8; max-width: 450px; }
+.contact .button { background: #171717; color: #F0EEE8; border-color: #171717; white-space: nowrap; }
+.contact .button:hover { background: #333; }
+.footer { background: #171717; color: #D0D0C9; border-top: 1px solid rgba(255,255,255,.2); padding: 25px 0; }
+.footer-inner { display: flex; justify-content: space-between; gap: 20px; font-size: 10px; letter-spacing: .05em; }
+.footer strong { color: #F5F2EC; letter-spacing: .14em; }
+.toast { position: fixed; bottom: 20px; right: 20px; background: var(--forest); color: white; padding: 15px 18px; max-width: 320px; font-size: 13px; line-height: 1.5; box-shadow: 0 12px 40px rgba(0,0,0,.18); opacity: 0; transform: translateY(10px); pointer-events: none; transition: .25s; z-index: 20; }
+.toast.show { opacity: 1; transform: translateY(0); }
+@media (max-width: 760px) {
+ .wrap { width: min(100% - 32px, 560px); }
+ .nav { height: 70px; }
+ .menu-toggle { display: block; }
+ .nav-links { display: none; position: absolute; top: 70px; left: 0; right: 0; padding: 22px 24px; background: var(--paper); z-index: 10; flex-direction: column; align-items: stretch; gap: 20px; border-bottom: 1px solid var(--line); }
+ .nav-links.open { display: flex; }
+ .nav-links a { padding: 4px 0; }
+ .hero { grid-template-columns: 1fr; gap: 34px; padding: 50px 0 54px; }
+ .hero h1 { font-size: clamp(58px, 15vw, 84px); }
+ .hero-art { min-height: 440px; margin-right: 0; box-shadow: 9px 9px 0 var(--sand); }
+ .arch-sun { width: 140px; height: 140px; }
+ .stats-inner { grid-template-columns: 1fr; gap: 0; }
+ .stat { border-right: 0; border-bottom: 1px solid rgba(255,255,255,.2); padding: 13px 0; }
+ .stat:last-child { border-bottom: 0; }
+ .section { padding: 82px 0; }
+ .section-head { display: block; margin-bottom: 30px; }
+ .section-head p { margin-top: 20px; }
+ .projects { grid-template-columns: 1fr; gap: 35px; }
+ .project-card:nth-child(2) { margin-top: 0; }
+ .project-art, .project-card:nth-child(2) .project-art { height: 340px; }
+ .service-grid { grid-template-columns: 1fr; }
+ .service, .service + .service { padding: 24px 0; border-left: 0; }
+ .service h3 { margin-top: 18px; }
+ .process { grid-template-columns: 1fr; gap: 30px; }
+ .contact-inner { display: block; }
+ .contact .button { margin-top: 20px; }
+ .footer-inner { flex-direction: column; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; } }
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="wrap nav">
+    <a class="brand" href="#inicio" aria-label="ARISTA, inicio"><span class="brand-mark"><span>A</span></span> ARISTA</a>
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="navLinks">Menú</button>
+    <nav class="nav-links" id="navLinks" aria-label="Navegación principal">
+      <a href="#proyectos">Proyectos</a><a href="#servicios">Servicios</a><a href="#proceso">Proceso</a><a class="nav-cta" href="#contacto">Hablemos <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+  <main>
+    <section class="wrap hero" id="inicio">
+      <div class="hero-copy">
+        <div class="eyebrow">Estudio de arquitectura e interiorismo · Madrid</div>
+        <h1>La materia<br>se convierte en<br><em>emoción.</em></h1>
+        <p>Diseñamos espacios donde la arquitectura encuentra al interiorismo. Volúmenes, luz y materiales se combinan para crear lugares con carácter, calma y una identidad irrepetible.</p>
+        <div class="hero-actions"><a class="button" href="#contacto">Cuéntanos tu idea <span aria-hidden="true">↗</span></a><a class="text-link" href="#proyectos">Explorar proyectos <span aria-hidden="true">↓</span></a></div>
+        <div class="hero-note">Arquitectura con carácter · Interiores con alma</div>
+      </div>
+      <div class="hero-art" role="img" aria-label="Composición arquitectónica escultórica en tonos carbón, piedra y oro">
+        <div class="arch-sun"></div><div class="arch-wall"></div><div class="arch-door"></div><div class="arch-floor"></div><div class="arch-plant"></div><div class="art-index">ESTUDIO INDEPENDIENTE · 2026</div><div class="art-caption">Luz · Forma · Materia</div>
+      </div>
+    </section>
+    <section class="stats"><div class="wrap stats-inner"><div class="stat"><strong>01</strong><span>Una visión única para cada espacio</span></div><div class="stat"><strong>360°</strong><span>Arquitectura e interiorismo en diálogo</span></div><div class="stat"><strong>∞</strong><span>Materiales, luz y posibilidades</span></div></div></section>
+    <section class="wrap section" id="proyectos">
+      <div class="section-head"><div><div class="eyebrow">Una selección de espacios</div><h2>Formas que<br>permanecen.</h2></div><p>De la estructura al último objeto, cada decisión construye una experiencia. Estos proyectos conceptuales exploran la relación entre espacio, materia y vida.</p></div>
+      <div class="projects">
+        <article class="project-card"><div class="project-art"><div class="p-sun"></div><div class="p-window"></div><div class="p-frame"></div><div class="p-table"></div></div><div class="project-meta"><h3>Casa Oliva</h3><span>Residencial · 2025</span></div><p class="project-desc">Una vivienda luminosa donde los materiales naturales y las líneas limpias crean una calma cotidiana.</p></article>
+        <article class="project-card"><div class="project-art second"><div class="p-sun"></div><div class="p-window"></div><div class="p-frame"></div><div class="p-table"></div></div><div class="project-meta"><h3>Atelier Norte</h3><span>Espacio de trabajo · 2026</span></div><p class="project-desc">Un estudio flexible que equilibra concentración, colaboración y una identidad propia.</p></article>
+      </div>
+    </section>
+    <section class="services section" id="servicios"><div class="wrap"><div class="section-head"><div><div class="eyebrow">Qué hacemos</div><h2>Ideas bien<br>construidas.</h2></div><p>Un servicio cercano y estructurado para convertir una idea inicial en un espacio coherente y habitable.</p></div>
+      <div class="service-grid"><article class="service"><div class="service-number">01 / ARQUITECTURA</div><h3>Espacio y volumen</h3><p>Distribución, proporción y relación con la luz natural para crear espacios que se sienten tan bien como funcionan.</p></article><article class="service"><div class="service-number">02 / INTERIORISMO</div><h3>Materia y atmósfera</h3><p>Paletas, texturas, iluminación y mobiliario que dan personalidad al espacio sin perder su equilibrio.</p></article><article class="service"><div class="service-number">03 / INTEGRACIÓN</div><h3>Una visión completa</h3><p>Arquitectura e interiorismo concebidos como un todo, desde la primera idea hasta los detalles finales.</p></article></div>
+    </div></section>
+    <section class="wrap section" id="proceso"><div class="process"><div class="process-intro"><div class="eyebrow">Nuestro proceso</div><h2>Claridad en<br>cada etapa.</h2><p>Un buen resultado nace de una buena conversación. Trabajamos con pasos claros para que sepas qué ocurre, qué viene después y por qué.</p></div><div class="steps"><article class="step"><div class="step-num">01</div><div><h3>Escuchar y definir</h3><p>Entendemos tus objetivos, prioridades, calendario y presupuesto.</p></div></article><article class="step"><div class="step-num">02</div><div><h3>Diseñar y validar</h3><p>Compartimos una dirección creativa y refinamos la propuesta contigo.</p></div></article><article class="step"><div class="step-num">03</div><div><h3>Desarrollar y entregar</h3><p>Coordinamos los detalles, resolvemos dudas y cerramos cada fase con claridad.</p></div></article></div></div></section>
+    <section class="contact" id="contacto"><div class="wrap contact-inner"><div><div class="eyebrow">El siguiente paso</div><h2>¿Le damos forma<br>a tu idea?</h2><p>Cuéntanos qué tienes en mente. Empezaremos por una conversación sencilla, sin compromiso, para entender qué necesitas.</p></div><a class="button" id="contactButton" href="mailto:hola@arista-studio.example?subject=Hablemos%20de%20mi%20proyecto">Iniciar conversación <span aria-hidden="true">↗</span></a></div></section>
+  </main>
+  <footer class="footer"><div class="wrap footer-inner"><strong>ARISTA / ESTUDIO</strong><span>Proyecto conceptual de portfolio · 2026</span><span>Arquitectura · Interiorismo · Materia</span></div></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite">Este es un proyecto conceptual. El correo de contacto es una dirección de demostración.</div>
+</div>
+<script>
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+menuToggle.addEventListener('click', () => {
+  const isOpen = navLinks.classList.toggle('open');
+  menuToggle.setAttribute('aria-expanded', String(isOpen));
+});
+navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+  navLinks.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded', 'false');
+}));
+const contactButton = document.getElementById('contactButton');
+const toast = document.getElementById('toast');
+contactButton.addEventListener('click', (event) => {
+  event.preventDefault();
+  toast.classList.add('show');
+  window.setTimeout(() => toast.classList.remove('show'), 4200);
+});
+</script>
+</body>
+</html>
